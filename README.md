@@ -67,7 +67,7 @@ Aplicar as migrations
 
 ```bash
   cd /src/src/Ambev.DeveloperEvaluation.WebApi
-  dotnet ef database update --project ../Ambev.DeveloperEvaluation. --startup-project . --context DefaultContext
+dotnet ef database update --project ../Ambev.DeveloperEvaluation.ORM --startup-project . --context DefaultContext
 ```
 
 Acesse o Swagger para testar a API:
