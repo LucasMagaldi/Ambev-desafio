@@ -4,6 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Ambev.DeveloperEvaluation.Application.Dtos;
+using Ambev.DeveloperEvaluation.Domain.Events;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 {
@@ -13,11 +14,18 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
         private readonly IMapper _mapper;
         private readonly ILogger<CreateSaleCommandHandler> _logger;
 
-        public CreateSaleCommandHandler(ISaleRepository repository, IMapper mapper, ILogger<CreateSaleCommandHandler> logger)
+        private readonly ISaleEventPublisher _eventPublisher;
+
+        public CreateSaleCommandHandler(
+            ISaleRepository repository,
+            IMapper mapper,
+            ILogger<CreateSaleCommandHandler> logger,
+            ISaleEventPublisher eventPublisher)
         {
             _repository = repository;
             _mapper = mapper;
             _logger = logger;
+            _eventPublisher = eventPublisher;
         }
 
         public async Task<SaleDto> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
@@ -38,10 +46,9 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 
             await _repository.AddAsync(sale);
 
-            _logger.LogInformation("Event: SaleCreated - Id: {SaleId}", sale.Id);
+            _eventPublisher.PublishSaleCreated(sale.Id);
 
             return _mapper.Map<SaleDto>(sale);
         }
-
     }
 }
