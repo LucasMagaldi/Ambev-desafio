@@ -1,0 +1,47 @@
+using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
+using AutoMapper;
+using MediatR;
+using Microsoft.Extensions.Logging;
+using Ambev.DeveloperEvaluation.Application.Dtos;
+
+namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
+{
+    public class CreateSaleCommandHandler : IRequestHandler<CreateSaleCommand, SaleDto>
+    {
+        private readonly ISaleRepository _repository;
+        private readonly IMapper _mapper;
+        private readonly ILogger<CreateSaleCommandHandler> _logger;
+
+        public CreateSaleCommandHandler(ISaleRepository repository, IMapper mapper, ILogger<CreateSaleCommandHandler> logger)
+        {
+            _repository = repository;
+            _mapper = mapper;
+            _logger = logger;
+        }
+
+        public async Task<SaleDto> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
+        {
+            var sale = new Sale(request.Customer, request.Branch, request.Date);
+
+            foreach (var item in request.Items)
+            {
+                decimal discount = 0m;
+
+                if (item.Quantity >= 10 && item.Quantity <= 20)
+                    discount = item.UnitPrice * 0.2m;
+                else if (item.Quantity >= 4)
+                    discount = item.UnitPrice * 0.1m;
+
+                sale.AddItem(item.ProductId, item.ProductName, item.Quantity, item.UnitPrice, discount);
+            }
+
+            await _repository.AddAsync(sale);
+
+            _logger.LogInformation("Event: SaleCreated - Id: {SaleId}", sale.Id);
+
+            return _mapper.Map<SaleDto>(sale);
+        }
+
+    }
+}
