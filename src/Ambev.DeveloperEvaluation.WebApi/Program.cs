@@ -5,6 +5,7 @@ using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.IoC;
 using Ambev.DeveloperEvaluation.ORM;
+using Ambev.DeveloperEvaluation.WebApi.Mappings;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -54,14 +55,13 @@ public class Program
 
             var app = builder.Build();
 
-            // ✅ Executar migrations automaticamente
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 try
                 {
                     var context = services.GetRequiredService<DefaultContext>();
-                    context.Database.Migrate(); // aplica as migrations pendentes
+                    context.Database.Migrate();
                 }
                 catch (Exception ex)
                 {
