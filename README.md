@@ -36,42 +36,66 @@ Este projeto é uma API .NET 8 que gerencia registros de vendas com aplicação 
 
 ### 🔧 Clonar o Repositório
 
-````bash
+```bash
 git clone https://github.com/LucasMagaldi/Desafio-ambev.git
 cd Desafio-ambev
-
----
+```
 
 ## Rodar com Docker (Recomendado)
 
 ```bash
-docker-compose -f docker-compose.override.yml up --build
+docker-compose  up -d
+```
+
+Acessar o container
+
+```bash
+docker exec -it ambev_developer_evaluation_sdk bash
+```
+
+Instalar CLI do Entity Framework no container
+
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+```bash
+export PATH="$PATH:/root/.dotnet/tools"
+```
+
+Aplicar as migrations
+
+```bash
+  cd /src/src/Ambev.DeveloperEvaluation.WebApi
+  dotnet ef database update --project ../Ambev.DeveloperEvaluation. --startup-project . --context DefaultContext
+```
 
 Acesse o Swagger para testar a API:
 
 ```bash
 https://localhost:8081/swagger/index.html
+```
 
-🖥️ Rodar Localmente (Sem Docker)
+## 🖥️ Rodar Localmente (Sem Docker)
+
 Instale o .NET 8 SDK:
 👉 Download .NET 8
 
 Navegue até o projeto WebApi e execute:
 
-
 ```bash
 cd src/Ambev.DeveloperEvaluation.WebApi
 dotnet run
+```
 
 A API estará disponível em:
 
-
 ```bash
 https://localhost:8081/swagger
-
+```
 
 🧪 Rodar os Testes Unitários
 
 ```bash
 dotnet test tests/Ambev.DeveloperEvaluation.Unit/Ambev.DeveloperEvaluation.Unit.csproj
-````
+```
