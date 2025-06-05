@@ -54,13 +54,14 @@ public class Program
 
             var app = builder.Build();
 
+            // ✅ Executar migrations automaticamente
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 try
                 {
                     var context = services.GetRequiredService<DefaultContext>();
-                    context.Database.Migrate();
+                    context.Database.Migrate(); // aplica as migrations pendentes
                 }
                 catch (Exception ex)
                 {
@@ -85,14 +86,11 @@ public class Program
 
             app.MapControllers();
 
-            Console.WriteLine("✅ Aplicação está prestes a iniciar...");
-            app.Run();  
-            Console.WriteLine("✅ Aplicação finalizada.");
+            app.Run();
         }
         catch (Exception ex)
         {
             Log.Fatal(ex, "Application terminated unexpectedly");
-            Console.WriteLine($"Erro fatal: {ex}");
         }
         finally
         {
