@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  dotnet.sdk:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    container_name: ambev_developer_evaluation_sdk
+    working_dir: /src/src
+    volumes:
+      - ./:/src
+    entrypoint: tail -f /dev/null
+    networks:
+      - default
