@@ -1,4 +1,6 @@
-﻿using Ambev.DeveloperEvaluation.Application.Services;
+﻿using Ambev.DeveloperEvaluation.Application.Events;
+using Ambev.DeveloperEvaluation.Application.Services;
+using Ambev.DeveloperEvaluation.Domain.Events;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Services;
 using Ambev.DeveloperEvaluation.ORM;
@@ -21,5 +23,7 @@ public class InfrastructureModuleInitializer : IModuleInitializer
         services.AddScoped<ISaleRepository, SaleRepository>();
 
         services.AddScoped<ISaleService, SaleService>();
+        builder.Services.AddScoped<ISaleEventPublisher, FakeSaleEventPublisher>();
+
     }
 }

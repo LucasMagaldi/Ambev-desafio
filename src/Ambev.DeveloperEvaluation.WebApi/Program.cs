@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application;
+﻿using Ambev.DeveloperEvaluation.Application;
 using Ambev.DeveloperEvaluation.Common.HealthChecks;
 using Ambev.DeveloperEvaluation.Common.Logging;
 using Ambev.DeveloperEvaluation.Common.Security;
@@ -85,11 +85,14 @@ public class Program
 
             app.MapControllers();
 
-            app.Run();
+            Console.WriteLine("✅ Aplicação está prestes a iniciar...");
+            app.Run();  
+            Console.WriteLine("✅ Aplicação finalizada.");
         }
         catch (Exception ex)
         {
             Log.Fatal(ex, "Application terminated unexpectedly");
+            Console.WriteLine($"Erro fatal: {ex}");
         }
         finally
         {
