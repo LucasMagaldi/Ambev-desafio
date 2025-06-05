@@ -14,12 +14,12 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
         public Guid SaleId { get; set; }
 
-        public SaleItem(Guid productId, string productName, int quantity, decimal unitPrice, decimal discount)
+        public SaleItem(Guid productId, string productName, int quantity, decimal Price, decimal discount)
         {
             ProductId = productId;
             ProductName = productName;
             Quantity = quantity;
-            Price = unitPrice;
+            Price = Price;
             Discount = discount;
         }
     }
