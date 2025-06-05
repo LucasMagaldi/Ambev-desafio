@@ -1,4 +1,4 @@
-namespace Ambev.DeveloperEvaluation.Common.SecurityAdd
+namespace Ambev.DeveloperEvaluation.Common.Security
 {
     public interface ISale
     {
