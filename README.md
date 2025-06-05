@@ -67,6 +67,13 @@ Aplicar as migrations
 
 ```bash
   cd /src/src/Ambev.DeveloperEvaluation.WebApi
+```
+
+```bash
+dotnet ef migrations add CreateSalesIfMissing --project ../Ambev.DeveloperEvaluation.ORM --startup-project .
+```
+
+```bash
 dotnet ef database update --project ../Ambev.DeveloperEvaluation.ORM --startup-project . --context DefaultContext
 ```
 
