@@ -5,7 +5,7 @@ namespace Ambev.DeveloperEvaluation.Common.Security
         Guid ProductId { get; }
         string ProductName { get; }
         int Quantity { get; }
-        decimal UnitPrice { get; }
+        decimal Price { get; }
         decimal Discount { get; }
         decimal TotalAmount { get; }
     }

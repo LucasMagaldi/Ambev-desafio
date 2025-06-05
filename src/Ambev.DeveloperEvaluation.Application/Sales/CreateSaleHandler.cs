@@ -37,11 +37,11 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
                 decimal discount = 0m;
 
                 if (item.Quantity >= 10 && item.Quantity <= 20)
-                    discount = item.UnitPrice * 0.2m;
+                    discount = item.Price * 0.2m;
                 else if (item.Quantity >= 4)
-                    discount = item.UnitPrice * 0.1m;
+                    discount = item.Price * 0.1m;
 
-                sale.AddItem(item.ProductId, item.ProductName, item.Quantity, item.UnitPrice, discount);
+                sale.AddItem(item.ProductId, item.ProductName, item.Quantity, item.Price, discount);
             }
 
             await _repository.AddAsync(sale);

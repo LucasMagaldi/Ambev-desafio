@@ -8,7 +8,7 @@ public interface ISaleService
         string customer,
         string branch,
         DateTime date,
-        List<(Guid productId, string productName, int quantity, decimal unitPrice)> items
+        List<(Guid productId, string productName, int quantity, decimal Price)> items
     );
 
     Task<Sale?> GetByIdAsync(Guid id);

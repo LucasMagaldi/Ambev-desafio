@@ -13,7 +13,7 @@ public class SaleItemConfiguration : IEntityTypeConfiguration<SaleItem>
         builder.Property(x => x.ProductId).IsRequired();
         builder.Property(x => x.ProductName).IsRequired();
         builder.Property(x => x.Quantity).IsRequired();
-        builder.Property(x => x.UnitPrice).IsRequired();
+        builder.Property(x => x.Price).IsRequired();
         builder.Property(x => x.Discount).IsRequired();
 
         builder.HasOne<Sale>()

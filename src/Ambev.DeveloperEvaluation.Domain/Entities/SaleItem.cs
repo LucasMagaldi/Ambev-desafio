@@ -8,20 +8,20 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public Guid ProductId { get; private set; }
         public string ProductName { get; private set; } = string.Empty;
         public int Quantity { get; private set; }
-        public decimal UnitPrice { get; private set; }
+        public decimal Price { get; private set; }
         public decimal Discount { get; private set; }
-        public decimal TotalAmount => (UnitPrice - Discount) * Quantity;
+        public decimal TotalAmount => (Price - Discount) * Quantity;
 
         public Guid SaleId { get; set; }
 
         protected SaleItem() { }
 
-        public SaleItem(Guid productId, string productName, int quantity, decimal unitPrice, decimal discount)
+        public SaleItem(Guid productId, string productName, int quantity, decimal price, decimal discount)
         {
             ProductId = productId;
             ProductName = productName;
             Quantity = quantity;
-            UnitPrice = unitPrice;
+            Price = price;
             Discount = discount;
         }
     }

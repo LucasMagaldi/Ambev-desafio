@@ -43,7 +43,7 @@ public class CreateSaleCommandHandlerTests
                     ProductId = Guid.NewGuid(),
                     ProductName = "Produto A",
                     Quantity = 3,
-                    UnitPrice = 10m
+                    Price = 10m
                 }
             }
         };
@@ -78,7 +78,7 @@ public class CreateSaleCommandHandlerTests
                     ProductId = Guid.NewGuid(),
                     ProductName = "Produto B",
                     Quantity = 10,
-                    UnitPrice = 10m
+                    Price = 10m
                 }
             }
         };

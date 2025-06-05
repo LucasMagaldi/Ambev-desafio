@@ -29,7 +29,7 @@ public class SaleController : ControllerBase
                 i.ProductId,
                 i.ProductName,
                 i.Quantity,
-                i.UnitPrice
+                i.Price
             )).ToList()
         );
 

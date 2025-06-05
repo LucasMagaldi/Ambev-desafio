@@ -25,7 +25,7 @@ public class SaleService : ISaleService
         string customer,
         string branch,
         DateTime date,
-        List<(Guid productId, string productName, int quantity, decimal unitPrice)> items)
+        List<(Guid productId, string productName, int quantity, decimal Price)> items)
     {
         var sale = new Sale(customer, branch, date);
 
@@ -47,7 +47,7 @@ public class SaleService : ISaleService
                 discount = 0.1m; // 10%
             }
 
-            sale.AddItem(item.productId, item.productName, item.quantity, item.unitPrice, discount);
+            sale.AddItem(item.productId, item.productName, item.quantity, item.Price, discount);
         }
 
         var validation = sale.Validate();

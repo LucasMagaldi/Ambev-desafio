@@ -26,13 +26,13 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             Date = date;
         }
 
-        public void AddItem(Guid productId, string productName, int quantity, decimal unitPrice, decimal discount)
+        public void AddItem(Guid productId, string productName, int quantity, decimal Price, decimal discount)
         {
-            var total = quantity * unitPrice;
+            var total = quantity * Price;
             var discountAmount = total * discount;
             var totalWithDiscount = total - discountAmount;
 
-            var item = new SaleItem(productId, productName, quantity, unitPrice, discount);
+            var item = new SaleItem(productId, productName, quantity, Price, discount);
             _items.Add(item);
 
         }

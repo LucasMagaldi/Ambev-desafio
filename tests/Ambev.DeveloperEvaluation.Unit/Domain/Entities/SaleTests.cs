@@ -11,14 +11,14 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
         {
             var sale = new Sale("Lucas", "Filial A", DateTime.UtcNow);
             var quantity = 3;
-            var unitPrice = 10m;
+            var Price = 10m;
             var discount = 0m;
 
-            sale.AddItem(Guid.NewGuid(), "Produto X", quantity, unitPrice, discount);
+            sale.AddItem(Guid.NewGuid(), "Produto X", quantity, Price, discount);
 
             var item = Assert.Single(sale.Items);
             Assert.Equal(discount, item.Discount);
-            Assert.Equal(quantity * unitPrice, item.TotalAmount);
+            Assert.Equal(quantity * Price, item.TotalAmount);
         }
 
         [Fact]
@@ -26,14 +26,14 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
         {
             var sale = new Sale("Lucas", "Filial B", DateTime.UtcNow);
             var quantity = 10;
-            var unitPrice = 10m;
-            var discountPerUnit = unitPrice * 0.2m;
+            var Price = 10m;
+            var discountPerUnit = Price * 0.2m;
 
-            sale.AddItem(Guid.NewGuid(), "Produto Y", quantity, unitPrice, discountPerUnit);
+            sale.AddItem(Guid.NewGuid(), "Produto Y", quantity, Price, discountPerUnit);
 
             var item = Assert.Single(sale.Items);
             Assert.Equal(discountPerUnit, item.Discount);
-            Assert.Equal(quantity * (unitPrice - discountPerUnit), item.TotalAmount); // 10 * 8 = 80
+            Assert.Equal(quantity * (Price - discountPerUnit), item.TotalAmount); // 10 * 8 = 80
         }
 
     }
