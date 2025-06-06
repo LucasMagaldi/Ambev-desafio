@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Application.Sales;
 using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.Domain.Entities;
@@ -12,5 +13,7 @@ public class CreateSaleRequestProfile : Profile
     public CreateSaleRequestProfile()
     {
         CreateMap<CreateSaleRequest, CreateSaleCommand>();
+        CreateMap<CreateSaleItemRequest, CreateSaleItem>();
+        CreateMap<SaleItem, SaleItemDto>();
     }
 }
