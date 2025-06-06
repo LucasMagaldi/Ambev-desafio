@@ -15,5 +15,6 @@ public class GetSaleProfile : Profile
     public GetSaleProfile()
     {
         CreateMap<Sale, GetSaleResult>();
+        CreateMap<SaleItem, GetSaleItemResult>();
     }
 }
