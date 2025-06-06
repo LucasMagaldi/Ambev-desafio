@@ -1,0 +1,28 @@
+namespace Ambev.DeveloperEvaluation.Application.Sales;
+
+/// <summary>
+/// Represents the response returned after successfully creating a new user.
+/// </summary>
+/// <remarks>
+/// This response contains the unique identifier of the newly created user,
+/// which can be used for subsequent operations or reference.
+/// </remarks>
+public class CreateSaleResult
+{
+    public Guid Id { get; set; }
+    public string Customer { get; set; } = string.Empty;
+    public string Branch { get; set; } = string.Empty;
+    public DateTime Date { get; set; }
+    public bool IsCancelled { get; set; }
+    public List<SaleItemDto> Items { get; set; } = new();
+}
+
+public class SaleItemDto
+{
+    public Guid ProductId { get; set; }
+    public string ProductName { get; set; } = string.Empty;
+    public int Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
+    public decimal Discount { get; set; }
+    public decimal TotalAmount { get; set; }
+}

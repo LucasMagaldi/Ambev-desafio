@@ -1,13 +1,12 @@
 using MediatR;
 using System;
 using System.Collections.Generic;
-using Ambev.DeveloperEvaluation.Application.Dtos;
 
 
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 {
-    public class CreateSaleCommand : IRequest<SaleDto>
+    public class CreateSaleCommand : IRequest<CreateSaleResult>
     {
         public string Customer { get; set; } = string.Empty;
         public string Branch { get; set; } = string.Empty;

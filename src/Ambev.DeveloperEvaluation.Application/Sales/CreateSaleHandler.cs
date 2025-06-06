@@ -3,12 +3,11 @@ using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Ambev.DeveloperEvaluation.Application.Dtos;
 using Ambev.DeveloperEvaluation.Domain.Events;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 {
-    public class CreateSaleCommandHandler : IRequestHandler<CreateSaleCommand, SaleDto>
+    public class CreateSaleCommandHandler : IRequestHandler<CreateSaleCommand, CreateSaleResult>
     {
         private readonly ISaleRepository _repository;
         private readonly IMapper _mapper;
@@ -28,7 +27,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
             _eventPublisher = eventPublisher;
         }
 
-        public async Task<SaleDto> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
+        public async Task<CreateSaleResult> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
         {
             var sale = new Sale(request.Customer, request.Branch, request.Date);
 
@@ -48,7 +47,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 
             _eventPublisher.PublishSaleCreated(sale.Id);
 
-            return _mapper.Map<SaleDto>(sale);
+            return _mapper.Map<CreateSaleResult>(sale);
         }
     }
 }

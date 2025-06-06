@@ -1,15 +1,16 @@
 using AutoMapper;
 using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Application.Dtos;
+using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
+using Ambev.DeveloperEvaluation.Application.Sales;
 
 namespace Ambev.DeveloperEvaluation.Application.Mappings
 {
-    public class SaleProfile : Profile
+    public class CreateSaleProfile : Profile
     {
-        public SaleProfile()
+        public CreateSaleProfile()
         {
-            CreateMap<Sale, SaleDto>();
-            CreateMap<SaleItem, SaleItemDto>();
+            CreateMap<CreateSaleCommand, Sale>();
+            CreateMap<Sale, CreateSaleResult>();
         }
     }
 }
