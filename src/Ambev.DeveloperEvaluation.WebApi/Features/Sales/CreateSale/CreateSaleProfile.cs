@@ -5,9 +5,6 @@ using Ambev.DeveloperEvaluation.Application.Sales;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 
-/// <summary>
-/// Profile for mapping between Application and API CreateSale models
-/// </summary>
 public class CreateSaleProfile : Profile
 {
     public CreateSaleProfile()

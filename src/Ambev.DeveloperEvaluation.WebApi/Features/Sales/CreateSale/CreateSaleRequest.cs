@@ -1,8 +1,5 @@
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 
-/// <summary>
-/// Represents a request to create a new sale
-/// </summary>
 public class CreateSaleRequest
 {
     public string Customer { get; set; } = string.Empty;
