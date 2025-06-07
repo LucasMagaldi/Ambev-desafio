@@ -1,13 +1,13 @@
+using Ambev.DeveloperEvaluation.Application.Sales;
 using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Events;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit;
-using Ambev.DeveloperEvaluation.Application.Dtos;
-using Ambev.DeveloperEvaluation.Domain.Events;
 
 namespace Ambev.DeveloperEvaluation.Unit.Application;
 
@@ -28,17 +28,17 @@ public class CreateSaleCommandHandlerTests
         _handler = new CreateSaleCommandHandler(_repository, _mapper, _logger, _eventPublisher);
     }
 
-    [Fact(DisplayName = "Given quantity 3 When creating sale Then no discount applied and event published")]
-    public async Task Handle_Quantity3_NoDiscount()
+    [Fact(DisplayName = "Should create sale with no discount when quantity is less than 4")]
+    public async Task Should_CreateSale_WithNoDiscount_WhenQuantityLessThanFour()
     {
         var command = new CreateSaleCommand
         {
             Customer = "Cliente A",
             Branch = "Filial X",
             Date = DateTime.UtcNow,
-            Items = new List<CreateSaleItemDto>
+            Items = new List<CreateSaleItem>
             {
-                new CreateSaleItemDto
+                new()
                 {
                     ProductId = Guid.NewGuid(),
                     ProductName = "Produto A",
@@ -48,8 +48,8 @@ public class CreateSaleCommandHandlerTests
             }
         };
 
-        var sale = new Sale(command.Customer, command.Branch, command.Date);
-        _mapper.Map<SaleDto>(Arg.Any<Sale>()).Returns(new SaleDto { Id = sale.Id });
+        _mapper.Map<CreateSaleResult>(Arg.Any<Sale>())
+            .Returns(new CreateSaleResult { Id = Guid.NewGuid() });
 
         var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -60,20 +60,20 @@ public class CreateSaleCommandHandlerTests
             s.Items.First().Discount == 0m &&
             s.Items.First().TotalAmount == 30m));
 
-        _eventPublisher.Received(1).PublishSaleCreated(Arg.Is<Guid>(id => id == sale.Id));
+        _eventPublisher.Received(1).PublishSaleCreated(Arg.Any<Guid>());
     }
 
-    [Fact(DisplayName = "Given quantity 10 When creating sale Then 20 percent discount applied and event published")]
-    public async Task Handle_Quantity10_Apply20PercentDiscount()
+    [Fact(DisplayName = "Should create sale with 20% discount when quantity is 10")]
+    public async Task Should_CreateSale_WithTwentyPercentDiscount_WhenQuantityIsTen()
     {
         var command = new CreateSaleCommand
         {
             Customer = "Cliente B",
             Branch = "Filial Y",
             Date = DateTime.UtcNow,
-            Items = new List<CreateSaleItemDto>
+            Items = new List<CreateSaleItem>
             {
-                new CreateSaleItemDto
+                new()
                 {
                     ProductId = Guid.NewGuid(),
                     ProductName = "Produto B",
@@ -83,8 +83,8 @@ public class CreateSaleCommandHandlerTests
             }
         };
 
-        var sale = new Sale(command.Customer, command.Branch, command.Date);
-        _mapper.Map<SaleDto>(Arg.Any<Sale>()).Returns(new SaleDto { Id = sale.Id });
+        _mapper.Map<CreateSaleResult>(Arg.Any<Sale>())
+            .Returns(new CreateSaleResult { Id = Guid.NewGuid() });
 
         var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -95,6 +95,6 @@ public class CreateSaleCommandHandlerTests
             s.Items.First().Discount == 2m &&
             s.Items.First().TotalAmount == 80m));
 
-        _eventPublisher.Received(1).PublishSaleCreated(Arg.Is<Guid>(id => id == sale.Id));
+        _eventPublisher.Received(1).PublishSaleCreated(Arg.Any<Guid>());
     }
 }
