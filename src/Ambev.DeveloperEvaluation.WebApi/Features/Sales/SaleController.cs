@@ -8,6 +8,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSaleById;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSaleById;
+using Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales;
 
@@ -93,5 +94,19 @@ public class SaleController : BaseController
         });
     }
 
+    [HttpPatch("{id:guid}/cancel")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> CancelSale(Guid id, CancellationToken cancellationToken)
+    {
+        var command = new CancelSaleCommand { Id = id };
+        await _mediator.Send(command, cancellationToken);
+
+        return Ok(new ApiResponse
+        {
+            Success = true,
+            Message = $"Sale {id} cancelled successfully"
+        });
+    }
 
 }
