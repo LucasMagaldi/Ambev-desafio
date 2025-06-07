@@ -1,63 +1,71 @@
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 
-namespace Ambev.DeveloperEvaluation.Domain.Entities
+public class Sale : BaseEntity, ISale
 {
-    public class Sale : BaseEntity, ISale
+    private readonly List<SaleItem> _items = new();
+
+    public string Customer { get; private set; } = string.Empty;
+    public string Branch { get; private set; } = string.Empty;
+    public DateTime Date { get; private set; }
+    public bool IsCancelled { get; private set; }
+    public IReadOnlyCollection<SaleItem> Items => _items.AsReadOnly();
+
+    IEnumerable<ISaleItem> ISale.Items => _items;
+
+    public decimal TotalAmount => CalculateTotalAmount();
+
+    public Sale(string customer, string branch, DateTime date)
     {
-        private readonly List<SaleItem> _items = new();
+        Customer = customer;
+        Branch = branch;
+        Date = date;
+    }
 
+    public void AddItem(Guid productId, string productName, int quantity, decimal price, decimal discount)
+    {
+        var total = quantity * price;
+        var discountAmount = total * discount;
+        var totalWithDiscount = total - discountAmount;
 
-        public string Customer { get; private set; } = string.Empty;
-        public string Branch { get; private set; } = string.Empty;
-        public DateTime Date { get; private set; }
-        public bool IsCancelled { get; private set; }
-        public IReadOnlyCollection<SaleItem> Items => _items.AsReadOnly();
+        var item = new SaleItem(productId, productName, quantity, price, discount);
+        _items.Add(item);
+    }
 
-        IEnumerable<ISaleItem> ISale.Items => _items;
+    public void Update(string customer, string branch, DateTime date)
+    {
+        Customer = customer;
+        Branch = branch;
+        Date = date;
+    }
 
-        public decimal TotalAmount => CalculateTotalAmount();
-        public Sale(string customer, string branch, DateTime date)
+    public void ClearItems()
+    {
+        _items.Clear();
+    }
+
+    public void Cancel()
+    {
+        if (IsCancelled) return;
+        IsCancelled = true;
+    }
+
+    public ValidationResultDetail Validate()
+    {
+        var validator = new SaleValidator();
+        var result = validator.Validate(this);
+        return new ValidationResultDetail
         {
-            Customer = customer;
-            Branch = branch;
-            Date = date;
-        }
+            IsValid = result.IsValid,
+            Errors = result.Errors.Select(e => (ValidationErrorDetail)e)
+        };
+    }
 
-        public void AddItem(Guid productId, string productName, int quantity, decimal Price, decimal discount)
-        {
-            var total = quantity * Price;
-            var discountAmount = total * discount;
-            var totalWithDiscount = total - discountAmount;
-
-            var item = new SaleItem(productId, productName, quantity, Price, discount);
-            _items.Add(item);
-
-        }
-
-
-        public void Cancel()
-        {
-            if (IsCancelled) return;
-            IsCancelled = true;
-        }
-
-        public ValidationResultDetail Validate()
-        {
-            var validator = new SaleValidator();
-            var result = validator.Validate(this);
-            return new ValidationResultDetail
-            {
-                IsValid = result.IsValid,
-                Errors = result.Errors.Select(e => (ValidationErrorDetail)e)
-            };
-        }
-
-        private decimal CalculateTotalAmount()
-        {
-            return _items.Sum(item => item.TotalAmount);
-        }
+    private decimal CalculateTotalAmount()
+    {
+        return _items.Sum(item => item.TotalAmount);
     }
 }
